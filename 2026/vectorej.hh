@@ -66,6 +66,14 @@ public:
         sz++;
     }
 
+    void erase(unsigned int pos) {
+        assert(pos < sz);
+        for(unsigned int i = pos; i < sz-1; i++) {
+            storage[i] = storage[i+1];
+        }
+        sz--;
+    }
+
     void erase(unsigned int from, unsigned int to) {
         assert(from <= to);
         assert(to <= sz);
@@ -264,8 +272,10 @@ public:
 
     template <typename Predicate>
     bool none_(Predicate p) const {
-    return all([&](const T& x) { return !p(x); });
+    return !any(p);
 }
+
+   
     template <typename Predicate>
     Vector<T> filter(Predicate p) const {
         Vector<T> result;
@@ -334,20 +344,29 @@ public:
 
 
     void shrink_to_fit() {
-        if (sz == cap) return;
-        T* newStorage = new T[sz];
-        for(unsigned int i = 0; i < sz; i++) {
-            newStorage[i] = storage[i];
-        }
+    if (sz == cap) return;
+
+    if (sz == 0) {
         delete [] storage;
-        storage = newStorage;
-        cap = sz;
+        storage = nullptr;
+        cap = 0;
+        return;
     }
+
+    T* newStorage = new T[sz];
+    for(unsigned int i = 0; i < sz; i++) {
+        newStorage[i] = storage[i];
+    }
+
+    delete [] storage;
+    storage = newStorage;
+    cap = sz;
+}
     
 private:
     void resize() {
         if (sz == cap) {
-            unsigned int newCapacity = cap * 1.5;
+            unsigned int newCapacity = (cap * 3) / 2 + 1;
             T* newStorage = new T[newCapacity];
             for(unsigned int i = 0; i < sz; i++) {
                 newStorage[i] = storage[i];

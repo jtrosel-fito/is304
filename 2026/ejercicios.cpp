@@ -29,7 +29,7 @@ void ej2() {
      v.at(2);
      v[1] = 100;
      v.print();
-     // la funcion at evalua el rango del vector, el operador no.
+      //la funcion at evalua el rango del vector, el operador no.
 }
 
 void ej3(){
@@ -231,56 +231,117 @@ void ej19(){
 }
 
 void ej20(){
+     Vector<int> v;
+     v.push_back(30); v.push_back(10); v.push_back(20); v.push_back(50); v.push_back(40);
+     v.print();
+     int from, to;
+     cout << "Ingrese el inicio del rango a cortar: ";
+     cin >> from;
+     cout << "Ingrese el final del rango a cortar: ";
+     cin >> to;
+     v.slice(from, to);
      
 }
 
 void ej21(){
-     
+     Vector<int> v, n;
+     v.push_back(30); v.push_back(10); v.push_back(20);
+     n.push_back(32); n.push_back(15); n.push_back(45);
+     v.print();
+     n.print();
+     v=n;
+     v.print();
 }
 
 void ej22(){
-     
+     Vector<int> v;
+     v.push_back(3); v.push_back(7); v.push_back(4); v.push_back(1);
+     bool hasEven = v.any([](int x) { return x % 2 == 0; });
+     cout << hasEven << endl;
+     bool hasNeg = v.any([](int x) { return x < 0; });
+     cout << hasNeg << endl;
 }
 
 void ej23(){
-     
+     Vector<int> v;
+     v.push_back(2); v.push_back(8); v.push_back(4); v.push_back(6);
+     bool allEven = v.all([](int x) { return x % 2 == 0; });
+     cout << allEven << endl;
+     bool allPos = v.all([](int x) { return x > 5; });
+     cout << allPos << endl;
 }
 
 void ej24(){
-     
+     Vector<int> v;
+     v.push_back(3); v.push_back(7); v.push_back(4); v.push_back(1);
+     bool noneNeg = v.none([](int x) { return x < 0; });
+     cout << noneNeg << endl;
+     bool noneEven = v.none([](int x) { return x % 2 == 0; });
+     cout << noneEven << endl;
+
+     Vector<int> h;
+    v.push_back(7);
+    v.push_back(4);
+    v.push_back(1);
+
+    auto p = [](int x){ return x < 0; };
+
+    assert(h.none(p) == !h.any(p));
+
+    assert(
+        h.none(p) == h.all([&](int x){ return !p(x); })
+    );
+
+    assert(h.any(p) == !h.none(p));
+
+    assert(
+        h.any(p) == !h.all([&](int x){ return !p(x); })
+    );
+
 }
 
 void ej25(){
-     
+     Vector<int> v;
+     v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4); v.push_back(5);
+     Vector<int> evens = v.filter([](int x) { return x % 2 == 0; });
+     evens.print();
+     Vector<int> big = v.filter([](int x) { return x > 10; });
+     big.print();
 }
 
 void ej26(){
-     
+     Vector<int> v;
+     v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4);
+     Vector<int> doubled = v.map([](int x) { return x * 2; });
+     doubled.print();
+     Vector<int> squared = v.map([](int x) { return x * x; });
+     squared.print();
 }    
 
 void ej27(){
-     
+     Vector<int> v;
+     v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4);
+     v.for_each([](int& x) { x *= 2; });
+     v.print();
+     v.for_each([](int& x) { if (x > 4) x = 0; });
+     v.print();
 }
 
 void ej28(){
-     
+     int num;
+     Vector<int> v;
+     v.push_back(1); v.push_back(2); v.push_back(3); v.push_back(4);
+     v.print();
+     cout<< "Ingrese un numero la posicion a borrar: ";
+     cin >> num;
+     v.erase(num);
+     v.print();
 }
 
-void ej29(){
-     
-}
-
-void ej30(){
-     
-}
-
-void ej31(){
-
-}
 
 int main() {
      int opcion;
-     cout << "Seleccione un ejercicio del 1 al 31"<< endl;
+     cout << "Seleccione un ejercicio del 1 al 28"<< endl;
      cin >> opcion;
      switch(opcion) {   
           case 0:
@@ -338,46 +399,37 @@ int main() {
                ej17();
                break;
           case 18:
-               //ej18();
+               ej18();
                break;
           case 19:
-               //ej19();
+               ej19();
                break;
           case 20:
-               //ej20();
+               ej20();
                break;
           case 21:
-               //ej21();
+               ej21();
                break;
           case 22:
-               //ej22();
+               ej22();
                break;
           case 23:
-               //ej23();
+               ej23();
                break;
           case 24:
-               //ej24();
+               ej24();
                break;
           case 25:  
-               //ej25();
+               ej25();
                break;
           case 26:
-               //ej26();
+               ej26();
                break;
           case 27:
-               //ej27();
+               ej27();
                break;
           case 28:
-               //ej28();
-               break;
-          case 29: 
-               //ej29();
-               break;
-          case 30: 
-               //ej30();
-               break;
-          case 31: 
-               //ej31();
+               ej28();
                break;
           default:
           cout << "Opcion no valida, vuelva a intentarlo" << endl;
@@ -387,4 +439,4 @@ int main() {
     return 0;
 }
 
-////compilar g++ ejercicios.cpp -o ejercicios
+//compilar g++ ejercicios.cpp -o ejercicios
